@@ -18,6 +18,6 @@ App to simulate Poiseuille flow.
             Q = (Pi * R^4 * Δp / (8 * μ * L))
             About the app: 水 is a Chinese pictogram meaning water/liquid.
             
-Created by Maciej Zajaczkowski, © copyright. (Feel free to use this project - just attribute me in any derivative works.
+Created by Maciej Zajaczkowski, copyright ©. (Feel free to use/modify this project - just attribute me in any derivative works)
 
 Method for drawing graphs, Credit: https://www.codeproject.com/Articles/104820/Drawing-Trig-Functions-via-WPF
