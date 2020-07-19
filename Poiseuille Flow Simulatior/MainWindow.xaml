@@ -1,0 +1,72 @@
+﻿<Window x:Class="Poiseuille_Flow_Simulator_Final.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Poiseuille_Flow_Simulator_Final"
+        mc:Ignorable="d"
+        Title="水 - PFS" Height="600" Width="1000">
+    <Grid>
+
+        <!-- input variables -->
+        <TextBlock FontSize="24" FontWeight ="Bold" HorizontalAlignment="Left" Height="34" Margin="90,26,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="610"><Run Text="水 - "/><Run Text="Poiseuille Flow Simulator"/></TextBlock>
+        <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" VerticalAlignment="Top" Margin="53,126,0,0" Width="72"><Run Text="Radius "/><Run Text="(r):"/></TextBlock>
+        <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" VerticalAlignment="Top" Margin="53,179,0,0" Width="72"><Run Text="Length "/><Run Text="(L):"/></TextBlock>
+        <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" VerticalAlignment="Top" Margin="53,238,0,0"><Run Text="Pressure "/><Run Text="("/><Span Foreground="Black" FontSize="12.6666666666667" FontFamily="Consolas"><Run Text="Δp"/></Span><Run Text="):"/></TextBlock>
+        <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" VerticalAlignment="Top" Margin="53,291,0,0" Width="72"><Run Text="Viscosity "/><Run Text="("/><Span Foreground="Black" FontSize="12.6666666666667" FontFamily="Consolas"><Run Text="μ"/></Span><Run Text="):"/></TextBlock>
+        <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" VerticalAlignment="Top" Margin="53,347,0,0" Width="72"><Run Text="Density"/><Run Text=" (ρ):"/></TextBlock>
+        <TextBox x:Name="l_value"  TextChanged="Calulate_Values"  PreviewTextInput="NumbersOnly" HorizontalAlignment="Left" Height="16" Margin="130,179,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="52"  />
+        <TextBox x:Name="Δp_value" TextChanged="Calulate_Values"  PreviewTextInput="NumbersOnly" HorizontalAlignment="Left" Height="16" Margin="130,237,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="52" />
+        <TextBox x:Name="μ_value"  TextChanged="Calulate_Values"  PreviewTextInput="NumbersOnly"  HorizontalAlignment="Left" Height="16" Margin="130,291,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="52" />
+        <TextBox x:Name="ρ_value"  TextChanged="Calulate_Values"  PreviewTextInput="NumbersOnly" HorizontalAlignment="Left" Height="16" Margin="130,349,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="52" />
+        <TextBox x:Name="r_value"  TextChanged="Calulate_Values"  PreviewTextInput="NumbersOnly" HorizontalAlignment="Left" Height="16" Margin="130,127,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="52" />
+
+        <!--Calculated Variables-->
+        <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" VerticalAlignment="Top" Margin="722,182,0,0" Width="126" Text="Maximum Velocity (V):"/>
+        <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" VerticalAlignment="Top" Margin="722,294,0,0" Width="116" Text="Volumetric Flux (Q):"/>
+        <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" VerticalAlignment="Top" Margin="722,126,0,0" Width="135" Text="Reynolds Number (Re):"/>
+        <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" VerticalAlignment="Top" Margin="722,236,0,0" Width="116" Text="Shear Stress (τ):"/>
+        <TextBox TextChanged="Calulate_Values" Name="reynolds_number" Background="LightGray" IsReadOnly="True" HorizontalAlignment="Left" Height="16" Margin="862,127,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="78" />
+        <TextBox TextChanged="Calulate_Values" Name="max_velocity" Background="LightGray" IsReadOnly="True" HorizontalAlignment="Left" Height="16" Margin="862,179,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="78"/>
+        <TextBox TextChanged="Calulate_Values" Name="shear_stress" Background="LightGray" IsReadOnly="True" HorizontalAlignment="Left" Height="16" Margin="862,236,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="78" />
+        <TextBox TextChanged="Calulate_Values" Name="volumetric_flux" Background="LightGray" IsReadOnly="True" HorizontalAlignment="Left" Height="16" Margin="862,291,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="78" />
+
+        <!-- laminar/turbulent indicator -->
+        <TextBlock x:Name="Laminar" HorizontalAlignment="Left" TextWrapping="Wrap" VerticalAlignment="Top" Margin="239,93,0,0"><Run Text="Lamina"/><Run Text="r"/></TextBlock>
+        <TextBlock x:Name="Transition" HorizontalAlignment="Left" TextWrapping="Wrap" VerticalAlignment="Top" Margin="421,93,0,0" Text="Transition"/>
+        <TextBlock x:Name="Turbulent" HorizontalAlignment="Left" TextWrapping="Wrap" VerticalAlignment="Top" Margin="605,96,0,0" Text="Turbulent"/>
+
+        <!-- no slip condition adjustment-->
+        <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="No Slip Condition" VerticalAlignment="Top" Margin="396,475,0,0"/>
+        <Button Click="Button_Click_On" x:Name ="On" Content="ON" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Margin="346,506,0,0"/>
+        <Button Click="Button_Click_Off" x:Name ="Off" Content="OFF" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Margin="470,505,0,0"/>
+
+        <!-- L >> R colour indicator-->
+        <TextBlock x:Name="RL" HorizontalAlignment="Left" TextWrapping="Wrap" VerticalAlignment="Top" Margin="90,475,0,0" Text="L &gt;&gt; R"/>
+
+        <TextBlock FontWeight="Bold" HorizontalAlignment="Left" TextWrapping="Wrap" Text="Scale Factors (Powers of 10)" VerticalAlignment="Top" Margin="722,378,0,0"/>
+        <TextBlock  HorizontalAlignment="Left" TextWrapping="Wrap" Text="Velocity and Shear Profiles:" VerticalAlignment="Top" Margin="722,399,0,0"/>
+
+        <TextBox TextChanged="Calulate_Values" x:Name="VTSF" Background="LightGray" IsReadOnly="True" HorizontalAlignment="Left" Height="16" Margin="888,399,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="52" />
+        <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="m" VerticalAlignment="Top" Margin="130,143,0,0"/>
+        <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="m" VerticalAlignment="Top" Margin="130,195,0,0" RenderTransformOrigin="0.409,4.344"/>
+        <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="Pa" VerticalAlignment="Top" Margin="130,253,0,0" RenderTransformOrigin="0.409,4.344"/>
+        <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="Pa s" VerticalAlignment="Top" Margin="130,307,0,0" RenderTransformOrigin="0.409,4.344"/>
+        <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="kg/m3" VerticalAlignment="Top" Margin="130,365,0,0" RenderTransformOrigin="0.409,4.344"/>
+        <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="m/s" VerticalAlignment="Top" Margin="862,195,0,0" RenderTransformOrigin="0.409,4.344"/>
+        <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="Pa" VerticalAlignment="Top" Margin="863,253,0,0" RenderTransformOrigin="0.409,4.344"/>
+        <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="m3/s" VerticalAlignment="Top" Margin="864,307,0,0" RenderTransformOrigin="0.409,4.344"/>
+
+        <!-- plot graph-->
+        <Border BorderBrush="Black" BorderThickness="1" Margin="5">
+
+            <Canvas Background="LightGray"  Name="chartCanvas" Width="500" Height="350" Margin="191.2,117.2,291.2,91.2" />
+
+        </Border>
+
+        <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" VerticalAlignment="Top" Margin="722,532,0,0" Text="By Maciej Zajaczkowski"/>
+        <Button Click="Help_Click" Content="Help" HorizontalAlignment="Left" VerticalAlignment="Top" Width="93" Margin="782,460,0,0" Height="31"/>
+
+
+    </Grid>
+</Window>
